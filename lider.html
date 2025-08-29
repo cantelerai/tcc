@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Líder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1> Painel do Líder</h1>
+  </header>
+
+  <main class="page-card">
+    <section>
+      <h2>Gerenciar Membros</h2>
+      <input type="text" id="novoMembro" placeholder="Nome do membro">
+      <button onclick="adicionarMembro()">Adicionar</button>
+
+      <ul id="listaMembros">
+        <li>Raiany <button onclick="removerMembro(this)">❌</button></li>
+        <li>Carlos <button onclick="removerMembro(this)">❌</button></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Gerenciar Eventos</h2>
+      <input type="text" id="novoEvento" placeholder="Ex.: Domingo 19h - Culto...">
+      <input type="text" id="pregador" placeholder="Pregador">
+      <button onclick="adicionarEvento()">Adicionar Evento</button>
+
+      <ul id="listaEventos">
+        <li>Domingo 19h: Culto da Família - Pregador: Pastor João</li>
+      </ul>
+    </section>
+
+    <button onclick="window.location.href='index.html'">Sair</button>
+  </main>
+
+  <script>
+    function adicionarMembro() {
+      const nome = document.getElementById("novoMembro").value;
+      if (nome.trim() === "") return;
+      const ul = document.getElementById("listaMembros");
+      const li = document.createElement("li");
+      li.innerHTML = `${nome} <button onclick="removerMembro(this)">❌</button>`;
+      ul.appendChild(li);
+      document.getElementById("novoMembro").value = "";
+    }
+
+    function removerMembro(btn) {
+      btn.parentElement.remove();
+    }
+
+    function adicionarEvento() {
+      const evento = document.getElementById("novoEvento").value;
+      const pregador = document.getElementById("pregador").value;
+      if (evento.trim() === "" || pregador.trim() === "") return;
+      const ul = document.getElementById("listaEventos");
+      const li = document.createElement("li");
+      li.textContent = `${evento} - Pregador: ${pregador}`;
+      ul.appendChild(li);
+      document.getElementById("novoEvento").value = "";
+      document.getElementById("pregador").value = "";
+    }
+  </script>
+</body>
+</html>
