@@ -1,1 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Igreja Assembleia</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="app-header">
+    <div class="brand">✝️ Igreja Assembleia</div>
+    <nav id="nav" class="nav" style="display:none;">
+      <button class="tab-btn" data-tab="tab-eventos">Eventos</button>
+      <button class="tab-btn" data-tab="tab-minhaescala">Minha Escala</button>
+      <button id="tab-membros-btn" class="tab-btn" data-tab="tab-membros" style="display:none;">Membros & Escalas</button>
+      <div class="user-pill" id="userPill" title="Usuário atual"></div>
+      <button id="logoutBtn" class="logout-btn">Sair</button>
+    </nav>
+  </header>
+
+  <!-- Container -->
+  <main class="container">
+
+    <!-- LOGIN -->
+    <section id="login-screen" class="card auth-card">
+      <h1>Bem-vinda(o) 👋</h1>
+      <p class="muted">Entre para acessar os eventos e escalas.</p>
+      <label class="label" for="username">Seu nome</label>
+      <input type="text" id="username" placeholder="Ex.: Raiany" />
+      <label class="label" for="user-role">Papel</label>
+      <select id="user-role">
+        <option value="membro">Membro</option>
+        <option value="lider">Líder</option>
+      </select>
+      <button class="primary" id="loginBtn">Entrar</button>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" style="display:none;">
+
+      <!-- TAB: EVENTOS -->
+      <div id="tab-eventos" class="tab">
+        <div class="grid">
+          <div class="card">
+            <div class="card-header">
+              <h2>📅 Próximos Eventos</h2>
+              <input id="busca-evento" class="search" placeholder="Buscar por título ou pregador..."/>
+            </div>
+            <div id="event-list" class="list"></div>
+          </div>
+
+          <!-- Área do líder: criar/editar -->
+          <div id="admin-eventos" class="card" style="display:none;">
+            <h2>➕ Adicionar/Editar Evento</h2>
+            <input type="hidden" id="evento-id" />
+            <label class="label" for="evento-titulo">Título</label>
+            <input type="text" id="evento-titulo" placeholder="Ex.: Culto de Jovens" />
+            <label class="label" for="evento-data">Data</label>
+            <input type="date" id="evento-data" />
+            <label class="label" for="evento-pregador">Pregador</label>
+            <input type="text" id="evento-pregador" placeholder="Ex.: Pr. João" />
+            <div class="row">
+              <button class="primary" id="salvarEventoBtn">Salvar</button>
+              <button class="ghost" id="cancelarEdicaoBtn">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: MINHA ESCALA (todos veem) -->
+      <div id="tab-minhaescala" class="tab" style="display:none;">
+        <div class="card">
+          <h2>🗓️ Minha Escala</h2>
+          <p class="muted" id="minhaescala-header"></p>
+          <div id="minha-escala-list" class="list"></div>
+        </div>
+      </div>
+
+      <!-- TAB: MEMBROS & ESCALAS (só líder) -->
+      <div id="tab-membros" class="tab" style="display:none;">
+        <div class="grid">
+          <div class="card">
+            <h2>👥 Membros & Líderes</h2>
+            <div class="row">
+              <input type="text" id="membro-nome" placeholder="Nome do membro" />
+              <select id="membro-tipo">
+                <option value="membro">Membro</option>
+                <option value="lider">Líder</option>
+              </select>
+              <button class="primary" id="addMembroBtn">Adicionar</button>
+            </div>
+            <div id="membro-list" class="list"></div>
+          </div>
+
+          <div class="card">
+            <h2>🧾 Escalas de Ministérios</h2>
+            <div class="row">
+              <select id="escala-membro" title="Selecione um membro"></select>
+              <input type="text" id="escala-tarefa" placeholder="Tarefa / Ministério (ex.: Louvor, Recepção)" />
+              <button class="primary" id="addEscalaBtn">Adicionar</button>
+            </div>
+            <div id="escala-list" class="list"></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Toasts -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Modal de confirmação -->
+  <div id="modal" class="modal" aria-hidden="true" role="dialog">
+    <div class="modal-content">
+      <h3 id="modal-title">Confirmar ação</h3>
+      <p id="modal-msg">Tem certeza?</p>
+      <div class="row">
+        <button class="danger" id="modal-confirm">Confirmar</button>
+        <button class="ghost" id="modal-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
 
