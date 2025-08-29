@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Igreja Assembleia</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Igreja Assembleia - Login</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>Igreja 📖 Assembleia</h1>
-  </header>
-
-  <main>
+  <div class="center-screen">
     <div class="login-card">
-      <h2>Bem-vinda(o) </h2>
-      <p>Entre para acessar os eventos e escalas.</p>
+      <h1> Igreja Assembleia</h1>
+      <p class="muted">Entre para acessar eventos, escalas e versículos.</p>
 
       <form id="loginForm">
         <label for="name">Seu nome</label>
-        <input type="text" id="name" placeholder="Ex.: Raiany" required>
+        <input id="name" type="text" placeholder="Ex.: Raiany" required />
 
         <label for="role">Papel</label>
         <select id="role">
@@ -26,10 +22,12 @@
           <option value="lider">Líder</option>
         </select>
 
-        <button type="submit">Entrar</button>
+        <button type="submit" class="primary">Entrar</button>
       </form>
+
+      <p class="muted small">Dados salvos localmente — não é necessário servidor.</p>
     </div>
-  </main>
+  </div>
 
   <script src="script.js"></script>
 </body>

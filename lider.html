@@ -1,68 +1,245 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Painel do Líder</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1> Painel do Líder</h1>
+  <header class="page-header">
+    <h2> Painel do Líder</h2>
+    <div class="pill-group">
+      <span id="userPill" class="pill"></span>
+      <button class="btn ghost" onclick="logout()">Sair</button>
+    </div>
   </header>
 
-  <main class="page-card">
-    <section>
-      <h2>Gerenciar Membros</h2>
-      <input type="text" id="novoMembro" placeholder="Nome do membro">
-      <button onclick="adicionarMembro()">Adicionar</button>
+  <main class="container-page">
+    <div class="grid">
+      <!-- Eventos (lado esquerdo) -->
+      <div>
+        <div class="card">
+          <h3>📅 Gerenciar Eventos</h3>
+          <div style="margin-top:10px;">
+            <input id="evTitulo" placeholder="Título do evento" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eee;">
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <input id="evData" type="date" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eee;">
+              <input id="evPregador" placeholder="Pregador" style="width:180px;padding:10px;border-radius:8px;border:1px solid #eee;">
+            </div>
+            <div style="margin-top:8px;">
+              <button class="btn primary" id="addEventBtn">Adicionar Evento</button>
+            </div>
+          </div>
 
-      <ul id="listaMembros">
-        <li>Raiany <button onclick="removerMembro(this)">❌</button></li>
-        <li>Carlos <button onclick="removerMembro(this)">❌</button></li>
-      </ul>
-    </section>
+          <div id="eventsAdminList" class="list mt-8"></div>
+        </div>
 
-    <section>
-      <h2>Gerenciar Eventos</h2>
-      <input type="text" id="novoEvento" placeholder="Ex.: Domingo 19h - Culto...">
-      <input type="text" id="pregador" placeholder="Pregador">
-      <button onclick="adicionarEvento()">Adicionar Evento</button>
+        <div class="card mt-8">
+          <h3>📖 Versículos</h3>
+          <input id="verseRef" placeholder="Ex: João 3:16" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eee;">
+          <textarea id="verseText" rows="3" placeholder="Texto do versículo" style="width:100%;margin-top:8px;padding:10px;border-radius:8px;border:1px solid #eee;"></textarea>
+          <div style="margin-top:8px;">
+            <button class="btn primary" id="addVerseBtn">Adicionar Versículo</button>
+          </div>
+          <div id="verseAdminList" class="list mt-8"></div>
+        </div>
+      </div>
 
-      <ul id="listaEventos">
-        <li>Domingo 19h: Culto da Família - Pregador: Pastor João</li>
-      </ul>
-    </section>
+      <!-- Membros + Escalas (lado direito) -->
+      <aside>
+        <div class="card">
+          <h3>👥 Membros & Líderes</h3>
+          <div style="display:flex;gap:8px;">
+            <input id="memberName" placeholder="Nome do membro" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eee;">
+            <select id="memberType" style="width:120px;padding:10px;border-radius:8px;border:1px solid #eee;">
+              <option value="membro">Membro</option>
+              <option value="lider">Líder</option>
+            </select>
+          </div>
+          <div style="margin-top:8px;">
+            <button class="btn primary" id="addMemberBtn">Adicionar Membro</button>
+          </div>
+          <div id="membersList" class="list mt-8"></div>
+        </div>
 
-    <button onclick="window.location.href='index.html'">Sair</button>
+        <div class="card mt-8">
+          <h3>🧾 Escalas de Ministérios</h3>
+          <select id="scaleMemberSelect" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eee;"></select>
+          <input id="scaleTask" placeholder="Tarefa / Ministério (ex: Louvor)" style="width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #eee;">
+          <input id="scaleDate" type="date" style="width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #eee;">
+          <div style="margin-top:8px;">
+            <button class="btn primary" id="addScaleBtn">Adicionar Escala</button>
+          </div>
+          <div id="scaleList" class="list mt-8"></div>
+        </div>
+      </aside>
+    </div>
   </main>
 
   <script>
-    function adicionarMembro() {
-      const nome = document.getElementById("novoMembro").value;
-      if (nome.trim() === "") return;
-      const ul = document.getElementById("listaMembros");
-      const li = document.createElement("li");
-      li.innerHTML = `${nome} <button onclick="removerMembro(this)">❌</button>`;
-      ul.appendChild(li);
-      document.getElementById("novoMembro").value = "";
-    }
+  /* ---------- constantes ---------- */
+  const USER_KEY = "igrejaAppUser_v1";
+  const STORE_KEY = "igrejaAppData_v3";
 
-    function removerMembro(btn) {
-      btn.parentElement.remove();
+  function loadStore(){
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw){
+      const seed = {
+        eventos: [
+          { id:1, titulo:"Culto de Jovens", data:"2025-09-05", pregador:"Pr. João" },
+          { id:2, titulo:"Estudo Bíblico", data:"2025-09-08", pregador:"Irmã Maria" }
+        ],
+        membros: [
+          { id:1, nome:"Raiany", tipo:"membro" },
+          { id:2, nome:"Ana", tipo:"membro" },
+          { id:3, nome:"Paulo", tipo:"lider" }
+        ],
+        escalas: [
+          { id:1, membroId:1, tarefa:"Louvor", data:"2025-09-05" }
+        ],
+        verses: [
+          { id:1, ref:"Salmos 23:1", text:"O Senhor é o meu pastor; nada me faltará." },
+          { id:2, ref:"Filipenses 4:13", text:"Posso todas as coisas naquele que me fortalece." }
+        ],
+        nextIds: { evento:3, membro:4, escala:2, verse:3 }
+      };
+      localStorage.setItem(STORE_KEY, JSON.stringify(seed));
+      return seed;
     }
+    return JSON.parse(raw);
+  }
+  function saveStore(){ localStorage.setItem(STORE_KEY, JSON.stringify(store)); }
+  let store = loadStore();
 
-    function adicionarEvento() {
-      const evento = document.getElementById("novoEvento").value;
-      const pregador = document.getElementById("pregador").value;
-      if (evento.trim() === "" || pregador.trim() === "") return;
-      const ul = document.getElementById("listaEventos");
-      const li = document.createElement("li");
-      li.textContent = `${evento} - Pregador: ${pregador}`;
-      ul.appendChild(li);
-      document.getElementById("novoEvento").value = "";
-      document.getElementById("pregador").value = "";
-    }
+  /* ---------- sessão ---------- */
+  const user = JSON.parse(localStorage.getItem(USER_KEY) || "null");
+  if(!user){ alert("Faça login primeiro."); location.href="index.html"; }
+  document.getElementById("userPill").textContent = `${user.name} • ${user.role}`;
+
+  /* ---------- eventos (admin) ---------- */
+  const eventsAdminList = document.getElementById("eventsAdminList");
+  document.getElementById("addEventBtn").addEventListener("click", ()=>{
+    const titulo = document.getElementById("evTitulo").value.trim();
+    const data = document.getElementById("evData").value;
+    const pregador = document.getElementById("evPregador").value.trim();
+    if(!titulo || !data || !pregador){ alert("Preencha título, data e pregador."); return; }
+    store.eventos.push({ id: store.nextIds.evento++, titulo, data, pregador });
+    saveStore(); renderEventsAdmin(); clearEventForm();
+  });
+  function clearEventForm(){ document.getElementById("evTitulo").value = ""; document.getElementById("evData").value = ""; document.getElementById("evPregador").value = ""; }
+
+  function renderEventsAdmin(){
+    eventsAdminList.innerHTML = "";
+    store.eventos.slice().sort((a,b)=> a.data.localeCompare(b.data)).forEach(e=>{
+      const d = document.createElement("div");
+      d.className = "card-item";
+      d.innerHTML = `<div class="item-main"><div class="item-title">${e.titulo}</div><div class="item-sub">${e.data} • ${e.pregador}</div></div><div class="item-actions"></div>`;
+      const actions = d.querySelector(".item-actions");
+      const btnDel = document.createElement("button"); btnDel.className="btn small danger"; btnDel.textContent="Excluir";
+      btnDel.onclick = ()=>{ if(confirm(`Excluir evento "${e.titulo}"?`)){ store.eventos = store.eventos.filter(x=> x.id !== e.id); saveStore(); renderEventsAdmin(); alert("Evento excluído."); } };
+      actions.appendChild(btnDel);
+      eventsAdminList.appendChild(d);
+    });
+  }
+
+  /* ---------- membros ---------- */
+  const membersList = document.getElementById("membersList");
+  document.getElementById("addMemberBtn").addEventListener("click", ()=>{
+    const name = document.getElementById("memberName").value.trim();
+    const type = document.getElementById("memberType").value;
+    if(!name){ alert("Digite o nome do membro."); return; }
+    store.membros.push({ id: store.nextIds.membro++, nome: name, tipo: type });
+    saveStore(); document.getElementById("memberName").value = ""; renderMembers(); renderScaleMemberSelect();
+  });
+
+  function renderMembers(){
+    membersList.innerHTML = "";
+    store.membros.slice().sort((a,b)=> a.nome.localeCompare(b.nome)).forEach(m=>{
+      const d = document.createElement("div");
+      d.className = "card-item";
+      d.innerHTML = `<div class="item-main"><div class="item-title">${m.nome}${m.tipo==="lider" ? " • Líder" : ""}</div><div class="item-sub">Papel: ${m.tipo}</div></div><div class="item-actions"></div>`;
+      const actions = d.querySelector(".item-actions");
+      const btnDel = document.createElement("button"); btnDel.className="btn small danger"; btnDel.textContent="Excluir";
+      btnDel.onclick = ()=>{ if(confirm(`Remover ${m.nome}?`)){ store.membros = store.membros.filter(x=> x.id !== m.id); store.escalas = store.escalas.filter(x=> x.membroId !== m.id); saveStore(); renderMembers(); renderScaleMemberSelect(); renderScaleList(); alert("Membro removido."); } };
+      actions.appendChild(btnDel);
+      membersList.appendChild(d);
+    });
+  }
+
+  /* ---------- escalas ---------- */
+  function renderScaleMemberSelect(){
+    const sel = document.getElementById("scaleMemberSelect");
+    sel.innerHTML = "<option value=''>Selecione membro</option>";
+    store.membros.forEach(m=> {
+      const opt = document.createElement("option");
+      opt.value = m.id; opt.textContent = m.nome + (m.tipo==="lider" ? " (Líder)" : "");
+      sel.appendChild(opt);
+    });
+  }
+  document.getElementById("addScaleBtn").addEventListener("click", ()=>{
+    const memberId = Number(document.getElementById("scaleMemberSelect").value);
+    const tarefa = document.getElementById("scaleTask").value.trim();
+    const data = document.getElementById("scaleDate").value;
+    if(!memberId || !tarefa){ alert("Selecione membro e preencha a tarefa."); return; }
+    store.escalas.push({ id: store.nextIds.escala++, membroId: memberId, tarefa: tarefa, data: data });
+    saveStore(); document.getElementById("scaleTask").value=""; document.getElementById("scaleDate").value=""; renderScaleList(); alert("Escala adicionada.");
+  });
+
+  const scaleListEl = document.getElementById("scaleList");
+  function renderScaleList(){
+    scaleListEl.innerHTML = "";
+    store.escalas.forEach(s=>{
+      const m = store.membros.find(x=> x.id === s.membroId);
+      if(!m) return;
+      const d = document.createElement("div");
+      d.className = "card-item";
+      d.innerHTML = `<div class="item-main"><div class="item-title">${m.nome}</div><div class="item-sub">${s.tarefa} • ${s.data || '—'}</div></div><div class="item-actions"></div>`;
+      const actions = d.querySelector(".item-actions");
+      const btnDel = document.createElement("button"); btnDel.className="btn small ghost"; btnDel.textContent="Remover";
+      btnDel.onclick = ()=>{ if(confirm(`Remover escala de ${m.nome}?`)){ store.escalas = store.escalas.filter(x=> x.id !== s.id); saveStore(); renderScaleList(); alert("Escala removida."); } };
+      actions.appendChild(btnDel);
+      scaleListEl.appendChild(d);
+    });
+  }
+
+  /* ---------- versículos admin ---------- */
+  document.getElementById("addVerseBtn").addEventListener("click", ()=>{
+    const ref = document.getElementById("verseRef").value.trim();
+    const txt = document.getElementById("verseText").value.trim();
+    if(!ref || !txt){ alert("Preencha referência e texto do versículo."); return; }
+    store.verses.push({ id: store.nextIds.verse++, ref: ref, text: txt });
+    saveStore(); document.getElementById("verseRef").value=""; document.getElementById("verseText").value=""; renderVerseAdmin(); alert("Versículo adicionado.");
+  });
+
+  const verseAdminList = document.getElementById("verseAdminList");
+  function renderVerseAdmin(){
+    verseAdminList.innerHTML = "";
+    store.verses.forEach(v=>{
+      const d = document.createElement("div");
+      d.className="card-item";
+      d.innerHTML = `<div class="item-main"><div class="item-title">${v.ref}</div><div class="item-sub">${v.text}</div></div><div class="item-actions"></div>`;
+      const actions = d.querySelector(".item-actions");
+      const btnDel = document.createElement("button"); btnDel.className="btn small danger"; btnDel.textContent="Excluir";
+      btnDel.onclick = ()=>{ if(confirm(`Excluir versículo ${v.ref}?`)){ store.verses = store.verses.filter(x=> x.id !== v.id); saveStore(); renderVerseAdmin(); alert("Versículo removido."); } };
+      actions.appendChild(btnDel);
+      verseAdminList.appendChild(d);
+    });
+  }
+
+  /* ---------- render geral & logout ---------- */
+  function renderAll(){
+    renderEventsAdmin();
+    renderMembers();
+    renderScaleMemberSelect();
+    renderScaleList();
+    renderVerseAdmin();
+  }
+  function logout(){ localStorage.removeItem(USER_KEY); location.href="index.html"; }
+  window.logout = logout;
+
+  // inicializa
+  renderAll();
   </script>
 </body>
 </html>

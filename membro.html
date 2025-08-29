@@ -1,24 +1,165 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Área do Membro</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1> Área do Membro</h1>
+  <header class="page-header">
+    <h2> Área do Membro</h2>
+    <div class="pill-group">
+      <span id="userPill" class="pill"></span>
+      <button class="btn ghost" onclick="logout()">Sair</button>
+    </div>
   </header>
 
-  <main class="page-card">
-    <h2>Eventos da Igreja</h2>
-    <ul id="eventos-lista">
-      <li><strong>Domingo 19h:</strong> Culto da Família - Pregador: Pastor João</li>
-      <li><strong>Quarta 20h:</strong> Culto de Oração - Pregador: Irmã Maria</li>
-    </ul>
+  <main class="container-page">
+    <div class="grid">
+      <!-- Eventos -->
+      <div class="card">
+        <h3>📅 Próximos Eventos</h3>
+        <input id="searchEvents" type="text" placeholder="Buscar por título ou pregador..." style="margin-top:10px;padding:10px;border-radius:8px;width:100%;border:1px solid #eee;">
+        <div id="eventsList" class="list mt-8"></div>
+      </div>
 
-    <button onclick="window.location.href='index.html'">Sair</button>
+      <!-- Minha Escala + Versículo -->
+      <aside>
+        <div class="card">
+          <h3>🗓️ Minha Escala</h3>
+          <div id="myScaleList" class="list mt-8"></div>
+        </div>
+
+        <div class="card mt-8">
+          <h3>📖 Versículo</h3>
+          <div class="verse-box">
+            <div id="verseRef" class="verse-ref"></div>
+            <div id="verseText" class="verse-text"></div>
+          </div>
+          <div class="row mt-8">
+            <button class="btn ghost small" id="prevVerseBtn">Anterior</button>
+            <button class="btn small" id="nextVerseBtn">Próximo versículo</button>
+          </div>
+        </div>
+      </aside>
+    </div>
   </main>
+
+  <script>
+  /* ---------- constantes e store ---------- */
+  const USER_KEY = "igrejaAppUser_v1";
+  const STORE_KEY = "igrejaAppData_v3";
+
+  function loadStore(){
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw){
+      const seed = {
+        eventos: [
+          { id:1, titulo:"Culto de Jovens", data:"2025-09-05", pregador:"Pr. João" },
+          { id:2, titulo:"Estudo Bíblico", data:"2025-09-08", pregador:"Irmã Maria" }
+        ],
+        membros: [
+          { id:1, nome:"Raiany", tipo:"membro" },
+          { id:2, nome:"Ana", tipo:"membro" },
+          { id:3, nome:"Paulo", tipo:"lider" }
+        ],
+        escalas: [
+          { id:1, membroId:1, tarefa:"Louvor", data:"2025-09-05" }
+        ],
+        verses: [
+          { id:1, ref:"Salmos 23:1", text:"O Senhor é o meu pastor; nada me faltará." },
+          { id:2, ref:"Filipenses 4:13", text:"Posso todas as coisas naquele que me fortalece." }
+        ],
+        nextIds: { evento:3, membro:4, escala:2, verse:3 }
+      };
+      localStorage.setItem(STORE_KEY, JSON.stringify(seed));
+      return seed;
+    }
+    return JSON.parse(raw);
+  }
+  function saveStore(){ localStorage.setItem(STORE_KEY, JSON.stringify(store)); }
+  let store = loadStore();
+
+  /* ---------- sessão ---------- */
+  const user = JSON.parse(localStorage.getItem(USER_KEY) || "null");
+  if(!user){ alert("Faça login primeiro."); location.href="index.html"; }
+  document.getElementById("userPill").textContent = `${user.name} • ${user.role}`;
+
+  /* ---------- Eventos ---------- */
+  const eventsListEl = document.getElementById("eventsList");
+  const searchEventsEl = document.getElementById("searchEvents");
+  searchEventsEl.addEventListener("input", renderEvents);
+
+  function renderEvents(){
+    const q = searchEventsEl.value.trim().toLowerCase();
+    eventsListEl.innerHTML = "";
+    const eventos = store.eventos.slice().sort((a,b)=> a.data.localeCompare(b.data)).filter(e=>{
+      return !q || e.titulo.toLowerCase().includes(q) || e.pregador.toLowerCase().includes(q);
+    });
+    if(eventos.length===0){
+      eventsListEl.innerHTML = `<div class="muted">Nenhum evento encontrado.</div>`;
+      return;
+    }
+    eventos.forEach(ev=>{
+      const div = document.createElement("div");
+      div.className = "card-item";
+      div.innerHTML = `<div class="item-main"><div class="item-title">${ev.titulo}</div><div class="item-sub">Data: ${ev.data} • Pregador: ${ev.pregador}</div></div><div class="item-actions"></div>`;
+      eventsListEl.appendChild(div);
+    });
+  }
+
+  /* ---------- Minha Escala ---------- */
+  const myScaleListEl = document.getElementById("myScaleList");
+  function renderMyScale(){
+    myScaleListEl.innerHTML = "";
+    const foundMember = store.membros.find(m => m.nome.toLowerCase() === user.name.toLowerCase());
+    if(!foundMember){
+      myScaleListEl.innerHTML = `<div class="muted">Seu nome não está cadastrado. Peça a um(a) líder para te adicionar.</div>`;
+      return;
+    }
+    const myEscalas = store.escalas.filter(s => s.membroId === foundMember.id);
+    if(myEscalas.length === 0){
+      myScaleListEl.innerHTML = `<div class="muted">Você ainda não tem escala.</div>`;
+      return;
+    }
+    myEscalas.forEach(s=>{
+      const d = document.createElement("div");
+      d.className = "card-item";
+      d.innerHTML = `<div class="item-main"><div class="item-title">${s.tarefa}</div><div class="item-sub">Data: ${s.data || '—'}</div></div>`;
+      myScaleListEl.appendChild(d);
+    });
+  }
+
+  /* ---------- Versículos ---------- */
+  const verseRefEl = document.getElementById("verseRef");
+  const verseTextEl = document.getElementById("verseText");
+  let currentVerseIndex = 0;
+
+  function renderVerse(index){
+    if(!store.verses || store.verses.length===0){
+      verseRefEl.textContent = "";
+      verseTextEl.textContent = "Nenhum versículo cadastrado.";
+      return;
+    }
+    if(index === undefined) index = Math.floor(Math.random()*store.verses.length);
+    currentVerseIndex = index % store.verses.length;
+    const v = store.verses[currentVerseIndex];
+    verseRefEl.textContent = v.ref;
+    verseTextEl.textContent = v.text;
+  }
+
+  document.getElementById("nextVerseBtn").addEventListener("click", ()=> renderVerse((currentVerseIndex+1)%store.verses.length));
+  document.getElementById("prevVerseBtn").addEventListener("click", ()=> renderVerse((currentVerseIndex-1+store.verses.length)%store.verses.length));
+
+  /* ---------- logout ---------- */
+  function logout(){ localStorage.removeItem(USER_KEY); location.href="index.html"; }
+  window.logout = logout;
+
+  /* ---------- inicialização ---------- */
+  renderEvents();
+  renderMyScale();
+  renderVerse();
+  </script>
 </body>
 </html>

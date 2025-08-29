@@ -1,14 +1,13 @@
-document.getElementById("loginForm").addEventListener("submit", function(event) {
-  event.preventDefault();
+// salva o usuário e papel no localStorage e redireciona
+const USER_KEY = "igrejaAppUser_v1";
 
-  const name = document.getElementById("name").value;
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const name = document.getElementById("name").value.trim();
   const role = document.getElementById("role").value;
-
-  if (role === "lider") {
-    alert(`Bem-vindo(a) líder ${name}! Você tem acesso administrativo.`);
-    window.location.href = "lider.html";
-  } else {
-    alert(`Bem-vindo(a) ${name}!`);
-    window.location.href = "membro.html";
-  }
+  if(!name){ alert("Digite seu nome."); return; }
+  localStorage.setItem(USER_KEY, JSON.stringify({ name, role }));
+  // redireciona conforme papel
+  if(role === "lider") location.href = "lider.html";
+  else location.href = "membro.html";
 });
