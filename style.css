@@ -84,3 +84,33 @@ button {
 button:hover {
   background: linear-gradient(90deg, #923ee0, #bb63e9);
 }
+
+.page-card {
+  background: #fff;
+  padding: 2rem;
+  margin-top: 80px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 600px;
+}
+
+.page-card h2 {
+  margin-bottom: 15px;
+  color: #5e3b8e;
+}
+
+.page-card ul {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.page-card li {
+  background: #f9f2ff;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
