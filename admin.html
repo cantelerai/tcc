@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Igreja</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e67e22;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info span {
+            margin-right: 15px;
+        }
+        
+        .logout-btn {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        
+        .content-section h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #d35400;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .image-preview {
+            max-width: 200px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 4px;
+            display: block;
+        }
+        
+        .tab-container {
+            margin-top: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--accent-color);
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .event-item, .member-item {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .event-actions, .member-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-edit {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-delete {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .sidebar-menu li {
+                flex-shrink: 0;
+                margin-bottom: 0;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        /* Ícones simulados */
+        .icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            background-color: currentColor;
+            mask-size: cover;
+        }
+        
+        .icon-home { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+        .icon-about { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E"); }
+        .icon-events { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z'/%3E%3C/svg%3E"); }
+        .icon-gallery { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/%3E%3C/svg%3E"); }
+        .icon-members { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.01 2.01 0 0 0 18.06 7h-1.24c-.77 0-1.45.45-1.76 1.15L12.5 15h-2.1l-1.5-4H5v10h2v-6h2v6h2v-6h2.5l.5 2h3l.5-2H18v6h2zm-6.5-8l1-3h1l1 3h-3zM6 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2z'/%3E%3C/svg%3E"); }
+        .icon-contact { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'/%3E%3C/svg%3E"); }
+        .icon-settings { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z'/%3E%3C/svg%3E"); }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Painel Administrativo</h2>
+                <p>Igreja - Site Institucional</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" data-tab="home"><span class="icon icon-home"></span> Página Inicial</a></li>
+                <li><a href="#" data-tab="about"><span class="icon icon-about"></span> Sobre a Igreja</a></li>
+                <li><a href="#" data-tab="events"><span class="icon icon-events"></span> Eventos</a></li>
+                <li><a href="#" data-tab="gallery"><span class="icon icon-gallery"></span> Galeria</a></li>
+                <li><a href="#" data-tab="members"><span class="icon icon-members"></span> Liderança</a></li>
+                <li><a href="#" data-tab="contact"><span class="icon icon-contact"></span> Contato</a></li>
+                <li><a href="#" data-tab="settings"><span class="icon icon-settings"></span> Configurações</a></li>
+            </ul>
+        </div>
+        
+        <!-- Conteúdo Principal -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Painel de Controle - Site da Igreja</h1>
+                <div class="user-info">
+                    <span>Administrador</span>
+                    <button class="logout-btn">Sair</button>
+                </div>
+            </div>
+            
+            <!-- Alertas -->
+            <div id="alert-area"></div>
+            
+            <!-- Conteúdo da Página Inicial -->
+            <div class="content-section tab-content active" id="home-content">
+                <h2>Página Inicial</h2>
+                
+                <div class="form-group">
+                    <label for="home-title">Título Principal</label>
+                    <input type="text" id="home-title" class="form-control" value="Igreja - Nome da Sua Igreja">
+                </div>
+                
+                <div class="form-group">
+                    <label for="home-subtitle">Subtítulo</label>
+                    <input type="text" id="home-subtitle" class="form-control" value="Uma comunidade de fé, esperança e amor">
+                </div>
+                
+                <div class="form-group">
+                    <label for="home-welcome">Mensagem de Boas-Vindas</label>
+                    <textarea id="home-welcome" class="form-control">Seja bem-vindo à nossa igreja! Somos uma comunidade dedicada a servir a Deus e ao próximo. Participe de nossos cultos e atividades.</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="home-service-times">Horários de Culto</label>
+                    <textarea id="home-service-times" class="form-control">Domingo: 9h - Escola Dominical
+Domingo: 10h30 - Culto Principal
+Quarta-feira: 19h30 - Culto de Oração</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="home-image">Imagem de Destaque</label>
+                    <input type="file" id="home-image" class="form-control">
+                    <img src="" alt="Prévia da imagem" class="image-preview" id="home-image-preview">
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveHomeContent()"><span class="icon icon-home"></span> Salvar Página Inicial</button>
+            </div>
+            
+            <!-- Conteúdo Sobre a Igreja -->
+            <div class="content-section tab-content" id="about-content">
+                <h2>Sobre a Igreja</h2>
+                
+                <div class="form-group">
+                    <label for="about-history">Nossa História</label>
+                    <textarea id="about-history" class="form-control">Nossa igreja foi fundada em [ano] com o propósito de [missão]. Ao longo dos anos, temos crescido e impactado nossa comunidade através do evangelho.</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="about-mission">Nossa Missão</label>
+                    <textarea id="about-mission" class="form-control">Nossa missão é [descrição da missão da igreja]. Buscamos cumprir o Ide de Jesus, pregando o evangelho e servindo ao próximo.</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="about-values">Nossos Valores</label>
+                    <textarea id="about-values" class="form-control">- Fé em Deus
+- Amor ao próximo
+- Compromisso com a verdade
+- Serviço à comunidade</textarea>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveAboutContent()"><span class="icon icon-about"></span> Salvar Sobre a Igreja</button>
+            </div>
+            
+            <!-- Conteúdo Eventos -->
+            <div class="content-section tab-content" id="events-content">
+                <h2>Gerenciar Eventos</h2>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-event-tab="list">Eventos Programados</div>
+                        <div class="tab" data-event-tab="add">Adicionar Evento</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="events-list">
+                        <div class="event-item">
+                            <div>
+                                <strong>Culto de Celebração</strong><br>
+                                <small>Domingo, 10h30 - 20/10/2023</small>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn btn-edit btn-sm">Editar</button>
+                                <button class="btn btn-delete btn-sm">Excluir</button>
+                            </div>
+                        </div>
+                        
+                        <div class="event-item">
+                            <div>
+                                <strong>Estudo Bíblico</strong><br>
+                                <small>Quarta-feira, 19h30 - 25/10/2023</small>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn btn-edit btn-sm">Editar</button>
+                                <button class="btn btn-delete btn-sm">Excluir</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="events-add">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-title">Título do Evento</label>
+                                <input type="text" id="event-title" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="event-date">Data do Evento</label>
+                                <input type="date" id="event-date" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-time">Horário</label>
+                                <input type="time" id="event-time" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="event-location">Local</label>
+                                <input type="text" id="event-location" class="form-control" value="Igreja">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="event-description">Descrição do Evento</label>
+                            <textarea id="event-description" class="form-control"></textarea>
+                        </div>
+                        
+                        <button class="btn btn-success" onclick="addEvent()"><span class="icon icon-events"></span> Adicionar Evento</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conteúdo Galeria -->
+            <div class="content-section tab-content" id="gallery-content">
+                <h2>Galeria de Fotos</h2>
+                
+                <div class="form-group">
+                    <label for="gallery-images">Adicionar Fotos à Galeria</label>
+                    <input type="file" id="gallery-images" class="form-control" multiple>
+                    <small>Selecione várias imagens mantendo a tecla Ctrl pressionada</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gallery-description">Descrição da Galeria</label>
+                    <textarea id="gallery-description" class="form-control">Confira os momentos especiais da nossa comunidade de fé.</textarea>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveGalleryContent()"><span class="icon icon-gallery"></span> Atualizar Galeria</button>
+            </div>
+            
+            <!-- Conteúdo Liderança -->
+            <div class="content-section tab-content" id="members-content">
+                <h2>Liderança da Igreja</h2>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-member-tab="list">Membros da Liderança</div>
+                        <div class="tab" data-member-tab="add">Adicionar Líder</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="members-list">
+                        <div class="member-item">
+                            <div>
+                                <strong>Pastor João Silva</strong><br>
+                                <small>Pastor Titular</small>
+                            </div>
+                            <div class="member-actions">
+                                <button class="btn btn-edit btn-sm">Editar</button>
+                                <button class="btn btn-delete btn-sm">Excluir</button>
+                            </div>
+                        </div>
+                        
+                        <div class="member-item">
+                            <div>
+                                <strong>Maria Santos</strong><br>
+                                <small>Diaconisa</small>
+                            </div>
+                            <div class="member-actions">
+                                <button class="btn btn-edit btn-sm">Editar</button>
+                                <button class="btn btn-delete btn-sm">Excluir</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="members-add">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="member-name">Nome Completo</label>
+                                <input type="text" id="member-name" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="member-role">Cargo/Função</label>
+                                <input type="text" id="member-role" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-description">Descrição/Biografia</label>
+                            <textarea id="member-description" class="form-control"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="member-photo">Foto</label>
+                            <input type="file" id="member-photo" class="form-control">
+                            <img src="" alt="Prévia da foto" class="image-preview" id="member-photo-preview">
+                        </div>
+                        
+                        <button class="btn btn-success" onclick="addMember()"><span class="icon icon-members"></span> Adicionar Líder</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conteúdo Contato -->
+            <div class="content-section tab-content" id="contact-content">
+                <h2>Informações de Contato</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contact-address">Endereço</label>
+                        <input type="text" id="contact-address" class="form-control" value="Rua Exemplo, 123 - Centro">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-city">Cidade/Estado</label>
+                        <input type="text" id="contact-city" class="form-control" value="Cidade - Estado">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contact-phone">Telefone</label>
+                        <input type="text" id="contact-phone" class="form-control" value="(11) 99999-9999">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-email">E-mail</label>
+                        <input type="email" id="contact-email" class="form-control" value="contato@igreja.com">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-map">Link do Google Maps (embed)</label>
+                    <textarea id="contact-map" class="form-control" placeholder="Cole aqui o código de incorporação do Google Maps"></textarea>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveContactContent()"><span class="icon icon-contact"></span> Salvar Contato</button>
+            </div>
+            
+            <!-- Configurações -->
+            <div class="content-section tab-content" id="settings-content">
+                <h2>Configurações do Site</h2>
+                
+                <div class="form-group">
+                    <label for="site-title">Título do Site</label>
+                    <input type="text" id="site-title" class="form-control" value="Igreja - Nome da Sua Igreja">
+                </div>
+                
+                <div class="form-group">
+                    <label for="site-description">Descrição do Site (SEO)</label>
+                    <textarea id="site-description" class="form-control">Site oficial da Igreja [Nome]. Uma comunidade de fé, esperança e amor.</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="site-logo">Logo do Site</label>
+                    <input type="file" id="site-logo" class="form-control">
+                    <img src="" alt="Prévia do logo" class="image-preview" id="site-logo-preview">
+                </div>
+                
+                <div class="form-group">
+                    <label for="site-theme">Tema de Cores</label>
+                    <select id="site-theme" class="form-control">
+                        <option value="default">Padrão (Azul/Laranja)</option>
+                        <option value="green">Verde</option>
+                        <option value="purple">Roxo</option>
+                        <option value="red">Vermelho</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveSettings()"><span class="icon icon-settings"></span> Salvar Configurações</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navegação entre abas
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove a classe active de todos os links
+                document.querySelectorAll('.sidebar-menu a').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Adiciona a classe active ao link clicado
+                this.classList.add('active');
+                
+                // Oculta todos os conteúdos
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Mostra o conteúdo correspondente
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).classList.add('active');
+            });
+        });
+        
+        // Navegação entre abas de eventos
+        document.querySelectorAll('[data-event-tab]').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove a classe active de todas as abas
+                document.querySelectorAll('[data-event-tab]').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Adiciona a classe active à aba clicada
+                this.classList.add('active');
+                
+                // Oculta todos os conteúdos de evento
+                document.querySelectorAll('#events-content .tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Mostra o conteúdo correspondente
+                const tabId = this.getAttribute('data-event-tab');
+                document.getElementById(`events-${tabId}`).classList.add('active');
+            });
+        });
+        
+        // Navegação entre abas de membros
+        document.querySelectorAll('[data-member-tab]').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove a classe active de todas as abas
+                document.querySelectorAll('[data-member-tab]').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Adiciona a classe active à aba clicada
+                this.classList.add('active');
+                
+                // Oculta todos os conteúdos de membro
+                document.querySelectorAll('#members-content .tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Mostra o conteúdo correspondente
+                const tabId = this.getAttribute('data-member-tab');
+                document.getElementById(`members-${tabId}`).classList.add('active');
+            });
+        });
+        
+        // Preview de imagens
+        document.getElementById('home-image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('home-image-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        document.getElementById('member-photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('member-photo-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        document.getElementById('site-logo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('site-logo-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Funções para salvar conteúdo
+        function showAlert(message, type) {
+            const alertArea = document.getElementById('alert-area');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            
+            // Ícone baseado no tipo
+            const icon = type === 'success' ? '✓' : '⚠';
+            alert.innerHTML = `<span>${icon}</span> ${message}`;
+            
+            alertArea.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+        
+        function saveHomeContent() {
+            // Aqui você implementaria a lógica para salvar no seu backend
+            showAlert('Conteúdo da página inicial salvo com sucesso!', 'success');
+        }
+        
+        function saveAboutContent() {
+            showAlert('Conteúdo sobre a igreja salvo com sucesso!', 'success');
+        }
+        
+        function addEvent() {
+            // Aqui você implementaria a lógica para adicionar um evento
+            showAlert('Evento adicionado com sucesso!', 'success');
+            
+            // Limpar formulário
+            document.getElementById('event-title').value = '';
+           
