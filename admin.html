@@ -212,15 +212,6 @@
             background-color: #27ae60;
         }
         
-        .image-preview {
-            max-width: 200px;
-            margin-top: 10px;
-            border: 1px solid #ddd;
-            padding: 5px;
-            border-radius: 4px;
-            display: block;
-        }
-        
         .tab-container {
             margin-top: 20px;
         }
@@ -287,7 +278,7 @@
             flex: 1;
         }
         
-        .event-item, .member-item {
+        .event-item {
             background-color: var(--light-color);
             padding: 15px;
             border-radius: 4px;
@@ -297,7 +288,7 @@
             align-items: center;
         }
         
-        .event-actions, .member-actions {
+        .event-actions {
             display: flex;
             gap: 10px;
         }
@@ -356,8 +347,6 @@
         .icon-home { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
         .icon-about { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E"); }
         .icon-events { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z'/%3E%3C/svg%3E"); }
-        .icon-gallery { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/%3E%3C/svg%3E"); }
-        .icon-members { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.01 2.01 0 0 0 18.06 7h-1.24c-.77 0-1.45.45-1.76 1.15L12.5 15h-2.1l-1.5-4H5v10h2v-6h2v6h2v-6h2.5l.5 2h3l.5-2H18v6h2zm-6.5-8l1-3h1l1 3h-3zM6 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2z'/%3E%3C/svg%3E"); }
         .icon-contact { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'/%3E%3C/svg%3E"); }
         .icon-settings { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z'/%3E%3C/svg%3E"); }
     </style>
@@ -374,8 +363,6 @@
                 <li><a href="#" class="active" data-tab="home"><span class="icon icon-home"></span> Página Inicial</a></li>
                 <li><a href="#" data-tab="about"><span class="icon icon-about"></span> Sobre a Igreja</a></li>
                 <li><a href="#" data-tab="events"><span class="icon icon-events"></span> Eventos</a></li>
-                <li><a href="#" data-tab="gallery"><span class="icon icon-gallery"></span> Galeria</a></li>
-                <li><a href="#" data-tab="members"><span class="icon icon-members"></span> Liderança</a></li>
                 <li><a href="#" data-tab="contact"><span class="icon icon-contact"></span> Contato</a></li>
                 <li><a href="#" data-tab="settings"><span class="icon icon-settings"></span> Configurações</a></li>
             </ul>
@@ -439,12 +426,6 @@ Domingo
 19h00 (Culto)</textarea>
                 </div>
                 
-                <div class="form-group">
-                    <label for="home-image">Imagem de Destaque</label>
-                    <input type="file" id="home-image" class="form-control">
-                    <img src="" alt="Prévia da imagem" class="image-preview" id="home-image-preview">
-                </div>
-                
                 <button class="btn btn-primary" onclick="saveHomeContent()"><span class="icon icon-home"></span> Salvar Página Inicial</button>
             </div>
             
@@ -453,13 +434,25 @@ Domingo
                 <h2>Sobre a Igreja</h2>
                 
                 <div class="form-group">
-                    <label for="about-history">Nossa História</label>
-                    <textarea id="about-history" class="form-control">Nossa igreja foi fundada em [ano] com o propósito de [missão]. Ao longo dos anos, temos crescido e impactado nossa comunidade através do evangelho.</textarea>
+                    <label for="about-history">Sobre</label>
+                    <textarea id="about-history" class="form-control">A Igreja Assembleia de Deus em Araucária tem como missão servir a comunidade local, pregando o Evangelho de Jesus Cristo e promovendo o crescimento espiritual de seus membros.
+
+Nossa congregação está localizada no Bairro Costeira e temos orgulho de fazer parte desta comunidade há vários anos.
+
+Estamos comprometidos com os valores cristãos e com o bem-estar espiritual de todos que buscam a Deus.</textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label for="about-mission">Nossa Missão</label>
-                    <textarea id="about-mission" class="form-control">Nossa missão é [descrição da missão da igreja]. Buscamos cumprir o Ide de Jesus, pregando o evangelho e servindo ao próximo.</textarea>
+                    <label for="about-mission">Nossa ministerios</label>
+                    <textarea id="about-mission" class="form-control"> 
+Ministério de Acolhimento;
+Voltado para receber novos membros e integrá-los à comunidade.
+Ministério de Louvor;
+Responsável pela música e adoração em nossos cultos.
+Ministério Social:
+Desenvolve projetos de assistência e apoio à comunidade local.
+
+</textarea>
                 </div>
                 
                 <div class="form-group">
@@ -486,8 +479,16 @@ Domingo
                     <div class="tab-content active" id="events-list">
                         <div class="event-item">
                             <div>
-                                <strong>Culto de Celebração</strong><br>
-                                <small>Domingo, 10h30 - 20/10/2023</small>
+                                <strong>Culto da Unaadar</strong><br>
+                                <small>20/09 9:00 - 21:30 Igreja Assembleia Sede</small>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn btn-edit btn-sm">Editar</button>
+                                <button class="btn btn-delete btn-sm">Excluir</button>
+                            </div>
+                        </div>
+                         <strong>Congresso Kids</strong><br>
+                                <small>12/10 9:00 - 21:30 Igreja Assembleia Sede</small>
                             </div>
                             <div class="event-actions">
                                 <button class="btn btn-edit btn-sm">Editar</button>
@@ -497,8 +498,8 @@ Domingo
                         
                         <div class="event-item">
                             <div>
-                                <strong>Estudo Bíblico</strong><br>
-                                <small>Quarta-feira, 19h30 - 25/10/2023</small>
+                                <strong>Congresso Unaadar</strong><br>
+                                <small>03 a 05 19:00 - 21:30 Igreja Assembleia Sede</small>
                             </div>
                             <div class="event-actions">
                                 <button class="btn btn-edit btn-sm">Editar</button>
@@ -541,119 +542,75 @@ Domingo
                     </div>
                 </div>
             </div>
-            
-            <!-- Conteúdo Galeria -->
-            <div class="content-section tab-content" id="gallery-content">
-                <h2>Galeria de Fotos</h2>
+        <!-- Conteúdo Doações PIX -->
+            <div class="content-section tab-content" id="donation-content">
+                <h2>Configurações de Doações PIX</h2>
                 
-                <div class="form-group">
-                    <label for="gallery-images">Adicionar Fotos à Galeria</label>
-                    <input type="file" id="gallery-images" class="form-control" multiple>
-                    <small>Selecione várias imagens mantendo a tecla Ctrl pressionada</small>
+                <div class="pix-info">
+                    <h3>Pré-visualização da Seção PIX</h3>
+                    <p><strong>Chave PIX atual:</strong> <span id="pix-preview-key">116.796.689-94</span></p>
+                    <p><strong>Tipo:</strong> <span id="pix-preview-type">CPF</span></p>
                 </div>
                 
                 <div class="form-group">
-                    <label for="gallery-description">Descrição da Galeria</label>
-                    <textarea id="gallery-description" class="form-control">Confira os momentos especiais da nossa comunidade de fé.</textarea>
+                    <label for="pix-key">Chave PIX</label>
+                    <input type="text" id="pix-key" class="form-control" value="116.796.689-94" placeholder="Digite a chave PIX">
                 </div>
                 
-                <button class="btn btn-primary" onclick="saveGalleryContent()"><span class="icon icon-gallery"></span> Atualizar Galeria</button>
-            </div>
-            
-            <!-- Conteúdo Liderança -->
-            <div class="content-section tab-content" id="members-content">
-                <h2>Liderança da Igreja</h2>
-                
-                <div class="tab-container">
-                    <div class="tabs">
-                        <div class="tab active" data-member-tab="list">Membros da Liderança</div>
-                        <div class="tab" data-member-tab="add">Adicionar Líder</div>
-                    </div>
-                    
-                    <div class="tab-content active" id="members-list">
-                        <div class="member-item">
-                            <div>
-                                <strong>Pastor João Silva</strong><br>
-                                <small>Pastor Titular</small>
-                            </div>
-                            <div class="member-actions">
-                                <button class="btn btn-edit btn-sm">Editar</button>
-                                <button class="btn btn-delete btn-sm">Excluir</button>
-                            </div>
-                        </div>
-                        
-                        <div class="member-item">
-                            <div>
-                                <strong>Maria Santos</strong><br>
-                                <small>Diaconisa</small>
-                            </div>
-                            <div class="member-actions">
-                                <button class="btn btn-edit btn-sm">Editar</button>
-                                <button class="btn btn-delete btn-sm">Excluir</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-content" id="members-add">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="member-name">Nome Completo</label>
-                                <input type="text" id="member-name" class="form-control">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="member-role">Cargo/Função</label>
-                                <input type="text" id="member-role" class="form-control">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="member-description">Descrição/Biografia</label>
-                            <textarea id="member-description" class="form-control"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="member-photo">Foto</label>
-                            <input type="file" id="member-photo" class="form-control">
-                            <img src="" alt="Prévia da foto" class="image-preview" id="member-photo-preview">
-                        </div>
-                        
-                        <button class="btn btn-success" onclick="addMember()"><span class="icon icon-members"></span> Adicionar Líder</button>
-                    </div>
+                <div class="form-group">
+                    <label for="pix-type">Tipo de Chave PIX</label>
+                    <select id="pix-type" class="form-control">
+                        <option value="CPF">CPF</option>
+                        <option value="CNPJ">CNPJ</option>
+                        <option value="Telefone">Telefone</option>
+                        <option value="Email">E-mail</option>
+                        <option value="Chave Aleatória">Chave Aleatória</option>
+                    </select>
                 </div>
-            </div>
-            
+                
+                <div class="form-group">
+                    <label for="pix-description">Descrição/Mensagem de Doação</label>
+                    <textarea id="pix-description" class="form-control">Sua doação é fundamental para mantermos nossas atividades e projetos sociais. Com seu apoio, podemos continuar espalhando a palavra de Deus e ajudando nossa comunidade.</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pix-instructions">Instruções Adicionais</label>
+                    <textarea id="pix-instructions" class="form-control">Faça uma doação rápida e segura via PIX. Copie a chave PIX e utilize seu aplicativo bancário para realizar a transferência.</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pix-footer">Rodapé/Observações</label>
+                    <textarea id="pix-footer" class="form-control">Observação: Todas as doações são utilizadas para a manutenção da igreja, projetos sociais e atividades comunitárias. Agradecemos sua contribuição!</textarea>
+                </div>
+                
+                <button class="btn btn-primary" onclick="savePixSettings()"><span class="icon icon-donation"></span> Salvar Configurações PIX</button>
+                
+                <div class="form-group" style="margin-top: 30px;">
+                    <h3>Testar Cópia da Chave PIX</h3>
+                    <div class="pix-key" id="test-pix-key">116.796.689-94</div>
+                    <button class="copy-btn" onclick="copyPixKey()">Copiar Chave PIX</button>
+                    <span id="copy-status" style="margin-left: 10px; color: var(--success-color);"></span>
+                </div>
             <!-- Conteúdo Contato -->
             <div class="content-section tab-content" id="contact-content">
-                <h2>Informações de Contato</h2>
+                <h2>Entre em Contato</h2>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="contact-address">Endereço</label>
-                        <input type="text" id="contact-address" class="form-control" value="Rua Exemplo, 123 - Centro">
+                        <input type="text" id="contact-address" class="form-control" value="Rua Nossa Senhora do Perpétuo Socorro, 322 - Bairro Costeira - Araucária">
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="contact-city">Cidade/Estado</label>
-                        <input type="text" id="contact-city" class="form-control" value="Cidade - Estado">
-                    </div>
-                </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="contact-phone">Telefone</label>
-                        <input type="text" id="contact-phone" class="form-control" value="(11) 99999-9999">
+                        <input type="text" id="contact-phone" class="form-control" value="(41) 999601251">
                     </div>
                     
                     <div class="form-group">
                         <label for="contact-email">E-mail</label>
-                        <input type="email" id="contact-email" class="form-control" value="contato@igreja.com">
+                        <input type="email" id="contact-email" class="form-control" value="igrejaassembleiaaraucaria@gmail.com">
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="contact-map">Link do Google Maps (embed)</label>
-                    <textarea id="contact-map" class="form-control" placeholder="Cole aqui o código de incorporação do Google Maps"></textarea>
                 </div>
                 
                 <button class="btn btn-primary" onclick="saveContactContent()"><span class="icon icon-contact"></span> Salvar Contato</button>
@@ -664,31 +621,16 @@ Domingo
                 <h2>Configurações do Site</h2>
                 
                 <div class="form-group">
-                    <label for="site-title">Título do Site</label>
+                    <label for="site-title">Gralha Azul</label>
                     <input type="text" id="site-title" class="form-control" value="Igreja - Nome da Sua Igreja">
                 </div>
                 
                 <div class="form-group">
-                    <label for="site-description">Descrição do Site (SEO)</label>
-                    <textarea id="site-description" class="form-control">Site oficial da Igreja [Nome]. Uma comunidade de fé, esperança e amor.</textarea>
+                    <label for="site-description">Descrição do Site</label>
+                    <textarea id="site-description" class="form-control">Site oficial da Igreja Assembleia. Uma comunidade de fé, esperança e amor.</textarea>
                 </div>
-                
-                <div class="form-group">
-                    <label for="site-logo">Logo do Site</label>
-                    <input type="file" id="site-logo" class="form-control">
-                    <img src="" alt="Prévia do logo" class="image-preview" id="site-logo-preview">
+        
                 </div>
-                
-                <div class="form-group">
-                    <label for="site-theme">Tema de Cores</label>
-                    <select id="site-theme" class="form-control">
-                        <option value="default">Padrão (Azul/Laranja)</option>
-                        <option value="green">Verde</option>
-                        <option value="purple">Roxo</option>
-                        <option value="red">Vermelho</option>
-                    </select>
-                </div>
-                
                 <button class="btn btn-primary" onclick="saveSettings()"><span class="icon icon-settings"></span> Salvar Configurações</button>
             </div>
         </div>
@@ -741,62 +683,6 @@ Domingo
             });
         });
         
-        // Navegação entre abas de membros
-        document.querySelectorAll('[data-member-tab]').forEach(tab => {
-            tab.addEventListener('click', function() {
-                // Remove a classe active de todas as abas
-                document.querySelectorAll('[data-member-tab]').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                // Adiciona a classe active à aba clicada
-                this.classList.add('active');
-                
-                // Oculta todos os conteúdos de membro
-                document.querySelectorAll('#members-content .tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                // Mostra o conteúdo correspondente
-                const tabId = this.getAttribute('data-member-tab');
-                document.getElementById(`members-${tabId}`).classList.add('active');
-            });
-        });
-        
-        // Preview de imagens
-        document.getElementById('home-image').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('home-image-preview').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        document.getElementById('member-photo').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('member-photo-preview').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        document.getElementById('site-logo').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('site-logo-preview').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
         // Funções para salvar conteúdo
         function showAlert(message, type) {
             const alertArea = document.getElementById('alert-area');
@@ -830,3 +716,14 @@ Domingo
             // Limpar formulário
             document.getElementById('event-title').value = '';
         }
+        
+        function saveContactContent() {
+            showAlert('Informações de contato salvas com sucesso!', 'success');
+        }
+        
+        function saveSettings() {
+            showAlert('Configurações salvas com sucesso!', 'success');
+        }
+    </script>
+</body>
+</html>
