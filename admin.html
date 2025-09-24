@@ -307,6 +307,39 @@
             background-color: var(--danger-color);
             color: white;
         }
+
+        .pix-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--success-color);
+            margin-bottom: 20px;
+        }
+
+        .pix-key {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            background-color: white;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+        }
+
+        .copy-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .copy-btn:hover {
+            background-color: #27ae60;
+        }
         
         @media (max-width: 768px) {
             .admin-container {
@@ -349,6 +382,7 @@
         .icon-events { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z'/%3E%3C/svg%3E"); }
         .icon-contact { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'/%3E%3C/svg%3E"); }
         .icon-settings { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z'/%3E%3C/svg%3E"); }
+        .icon-donation { mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.8-1.38 2.83-3.12 3.16z'/%3E%3C/svg%3E"); }
     </style>
 </head>
 <body>
@@ -363,6 +397,7 @@
                 <li><a href="#" class="active" data-tab="home"><span class="icon icon-home"></span> Página Inicial</a></li>
                 <li><a href="#" data-tab="about"><span class="icon icon-about"></span> Sobre a Igreja</a></li>
                 <li><a href="#" data-tab="events"><span class="icon icon-events"></span> Eventos</a></li>
+                <li><a href="#" data-tab="donation"><span class="icon icon-donation"></span> Doações PIX</a></li>
                 <li><a href="#" data-tab="contact"><span class="icon icon-contact"></span> Contato</a></li>
                 <li><a href="#" data-tab="settings"><span class="icon icon-settings"></span> Configurações</a></li>
             </ul>
@@ -434,20 +469,15 @@ Domingo
                 <h2>Sobre a Igreja</h2>
                 
                 <div class="form-group">
-                    <label for="about-history">Sobre</label>
-                    <textarea id="about-history" class="form-control">A Igreja Assembleia de Deus em Araucária tem como missão servir a comunidade local, pregando o Evangelho de Jesus Cristo e promovendo o crescimento espiritual de seus membros.
-
-Nossa congregação está localizada no Bairro Costeira e temos orgulho de fazer parte desta comunidade há vários anos.
-
-Estamos comprometidos com os valores cristãos e com o bem-estar espiritual de todos que buscam a Deus.</textarea>
+                    <label for="about-history">Nossa História</label>
+                    <textarea id="about-history" class="form-control">Nossa igreja foi fundada em [ano] com o propósito de [missão]. Ao longo dos anos, temos crescido e impactado nossa comunidade através do evangelho.</textarea>
                 </div>
                 
-                <div class="form-group">
-                    <label for="about-mission">Nossa ministerios</label>
+                 <label for="about-mission">Nossa ministerios</label>
                     <textarea id="about-mission" class="form-control"> 
-Ministério de Acolhimento;
+Ministério de Acolhimento:
 Voltado para receber novos membros e integrá-los à comunidade.
-Ministério de Louvor;
+Ministério de Louvor:
 Responsável pela música e adoração em nossos cultos.
 Ministério Social:
 Desenvolve projetos de assistência e apoio à comunidade local.
@@ -461,6 +491,8 @@ Desenvolve projetos de assistência e apoio à comunidade local.
 - Amor ao próximo
 - Compromisso com a verdade
 - Serviço à comunidade</textarea>
+                
+            
                 </div>
                 
                 <button class="btn btn-primary" onclick="saveAboutContent()"><span class="icon icon-about"></span> Salvar Sobre a Igreja</button>
@@ -476,7 +508,7 @@ Desenvolve projetos de assistência e apoio à comunidade local.
                         <div class="tab" data-event-tab="add">Adicionar Evento</div>
                     </div>
                     
-                    <div class="tab-content active" id="events-list">
+                     <div class="tab-content active" id="events-list">
                         <div class="event-item">
                             <div>
                                 <strong>Culto da Unaadar</strong><br>
@@ -507,9 +539,6 @@ Desenvolve projetos de assistência e apoio à comunidade local.
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="tab-content" id="events-add">
-                        <div class="form-row">
                             <div class="form-group">
                                 <label for="event-title">Título do Evento</label>
                                 <input type="text" id="event-title" class="form-control">
@@ -542,7 +571,8 @@ Desenvolve projetos de assistência e apoio à comunidade local.
                     </div>
                 </div>
             </div>
-        <!-- Conteúdo Doações PIX -->
+
+            <!-- Conteúdo Doações PIX -->
             <div class="content-section tab-content" id="donation-content">
                 <h2>Configurações de Doações PIX</h2>
                 
@@ -591,14 +621,16 @@ Desenvolve projetos de assistência e apoio à comunidade local.
                     <button class="copy-btn" onclick="copyPixKey()">Copiar Chave PIX</button>
                     <span id="copy-status" style="margin-left: 10px; color: var(--success-color);"></span>
                 </div>
+            </div>
+            
             <!-- Conteúdo Contato -->
             <div class="content-section tab-content" id="contact-content">
-                <h2>Entre em Contato</h2>
+                <h2>Informações de Contato</h2>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="contact-address">Endereço</label>
-                        <input type="text" id="contact-address" class="form-control" value="Rua Nossa Senhora do Perpétuo Socorro, 322 - Bairro Costeira - Araucária">
+                        <input type="text" id="contact-address" class="form-control" value="Rua Nossa Senhora do Perpétuo Socorro, 322 - Bairro Costeira">
                     </div>
                 
                 <div class="form-row">
@@ -612,25 +644,31 @@ Desenvolve projetos de assistência e apoio à comunidade local.
                         <input type="email" id="contact-email" class="form-control" value="igrejaassembleiaaraucaria@gmail.com">
                     </div>
                 </div>
-                
-                <button class="btn btn-primary" onclick="saveContactContent()"><span class="icon icon-contact"></span> Salvar Contato</button>
-            </div>
             
             <!-- Configurações -->
             <div class="content-section tab-content" id="settings-content">
                 <h2>Configurações do Site</h2>
                 
                 <div class="form-group">
-                    <label for="site-title">Gralha Azul</label>
-                    <input type="text" id="site-title" class="form-control" value="Igreja - Nome da Sua Igreja">
+                    <label for="site-title">Título do Site</label>
+                    <input type="text" id="site-title" class="form-control" value="Igreja Assembleia de Deus - Gralha Azul">
                 </div>
                 
                 <div class="form-group">
-                    <label for="site-description">Descrição do Site</label>
-                    <textarea id="site-description" class="form-control">Site oficial da Igreja Assembleia. Uma comunidade de fé, esperança e amor.</textarea>
+                    <label for="site-description">Descrição do Site (SEO)</label>
+                    <textarea id="site-description" class="form-control">Site oficial da Igreja Assembleia de Deus - Gralha Azul. Uma comunidade de fé, esperança e amor em Araucária.</textarea>
                 </div>
-        
+                
+                <div class="form-group">
+                    <label for="site-theme">Tema de Cores</label>
+                    <select id="site-theme" class="form-control">
+                        <option value="default">Padrão (Azul/Laranja)</option>
+                        <option value="green">Verde</option>
+                        <option value="purple">Roxo</option>
+                        <option value="red">Vermelho</option>
+                    </select>
                 </div>
+                
                 <button class="btn btn-primary" onclick="saveSettings()"><span class="icon icon-settings"></span> Salvar Configurações</button>
             </div>
         </div>
@@ -682,6 +720,16 @@ Desenvolve projetos de assistência e apoio à comunidade local.
                 document.getElementById(`events-${tabId}`).classList.add('active');
             });
         });
+
+        // Atualizar pré-visualização do PIX
+        document.getElementById('pix-key').addEventListener('input', updatePixPreview);
+        document.getElementById('pix-type').addEventListener('change', updatePixPreview);
+
+        function updatePixPreview() {
+            document.getElementById('pix-preview-key').textContent = document.getElementById('pix-key').value;
+            document.getElementById('pix-preview-type').textContent = document.getElementById('pix-type').value;
+            document.getElementById('test-pix-key').textContent = document.getElementById('pix-key').value;
+        }
         
         // Funções para salvar conteúdo
         function showAlert(message, type) {
@@ -701,7 +749,6 @@ Desenvolve projetos de assistência e apoio à comunidade local.
         }
         
         function saveHomeContent() {
-            // Aqui você implementaria a lógica para salvar no seu backend
             showAlert('Conteúdo da página inicial salvo com sucesso!', 'success');
         }
         
@@ -710,11 +757,23 @@ Desenvolve projetos de assistência e apoio à comunidade local.
         }
         
         function addEvent() {
-            // Aqui você implementaria a lógica para adicionar um evento
             showAlert('Evento adicionado com sucesso!', 'success');
-            
-            // Limpar formulário
             document.getElementById('event-title').value = '';
+        }
+
+        function savePixSettings() {
+            showAlert('Configurações PIX salvas com sucesso!', 'success');
+        }
+
+        function copyPixKey() {
+            const pixKey = document.getElementById('pix-key').value;
+            navigator.clipboard.writeText(pixKey).then(() => {
+                const status = document.getElementById('copy-status');
+                status.textContent = 'Chave copiada!';
+                setTimeout(() => {
+                    status.textContent = '';
+                }, 2000);
+            });
         }
         
         function saveContactContent() {
@@ -724,6 +783,9 @@ Desenvolve projetos de assistência e apoio à comunidade local.
         function saveSettings() {
             showAlert('Configurações salvas com sucesso!', 'success');
         }
+
+        // Inicializar pré-visualização do PIX
+        updatePixPreview();
     </script>
 </body>
 </html>
