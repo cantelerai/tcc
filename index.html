@@ -1000,6 +1000,93 @@
             
             alert('Chave PIX copiada para a área de transferência!');
         }
-    </script>
+    <script>
+// Sistema de Carregamento Dinâmico
+document.addEventListener('DOMContentLoaded', function() {
+    // Header e Hero Section
+    const tituloSite = localStorage.getItem('tituloSite');
+    const subtituloHero = localStorage.getItem('subtituloHero');
+    const textoBotaoHero = localStorage.getItem('textoBotaoHero');
+    
+    if (tituloSite) {
+        const tituloElement = document.querySelector('.navbar-brand') || document.querySelector('h1');
+        if (tituloElement) tituloElement.textContent = tituloSite;
+    }
+    
+    if (subtituloHero) {
+        const subtituloElement = document.querySelector('.hero h2') || document.querySelector('.banner h2');
+        if (subtituloElement) subtituloElement.textContent = subtituloHero;
+    }
+    
+    if (textoBotaoHero) {
+        const botaoElement = document.querySelector('.hero .btn') || document.querySelector('.banner .btn');
+        if (botaoElement) botaoElement.textContent = textoBotaoHero;
+    }
+    
+    // Seção Sobre
+    const tituloSobre = localStorage.getItem('tituloSobre');
+    const textoMissao = localStorage.getItem('textoMissao');
+    const textoVisao = localStorage.getItem('textoVisao');
+    const textoValores = localStorage.getItem('textoValores');
+    
+    if (tituloSobre) {
+        const elemento = document.querySelector('#sobre h2');
+        if (elemento) elemento.textContent = tituloSobre;
+    }
+    
+    if (textoMissao) {
+        const elemento = document.querySelector('#missao p');
+        if (elemento) elemento.textContent = textoMissao;
+    }
+    
+    if (textoVisao) {
+        const elemento = document.querySelector('#visao p');
+        if (elemento) elemento.textContent = textoVisao;
+    }
+    
+    if (textoValores) {
+        const elemento = document.querySelector('#valores p');
+        if (elemento) elemento.textContent = textoValores;
+    }
+    
+    // Serviços
+    const servicos = JSON.parse(localStorage.getItem('servicos') || '[]');
+    if (servicos.length > 0) {
+        const containerServicos = document.querySelector('#servicos .row');
+        if (containerServicos) {
+            containerServicos.innerHTML = servicos.map(servico => `
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">${servico.titulo}</h5>
+                            <p class="card-text">${servico.descricao}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+    
+    // Contato
+    const telefone = localStorage.getItem('telefone');
+    const email = localStorage.getItem('email');
+    const endereco = localStorage.getItem('endereco');
+    
+    if (telefone) {
+        const elemento = document.querySelector('[data-contato="telefone"]');
+        if (elemento) elemento.textContent = telefone;
+    }
+    
+    if (email) {
+        const elemento = document.querySelector('[data-contato="email"]');
+        if (elemento) elemento.textContent = email;
+    }
+    
+    if (endereco) {
+        const elemento = document.querySelector('[data-contato="endereco"]');
+        if (elemento) elemento.textContent = endereco;
+    }
+});
+</script>
 </body>
 </html>
